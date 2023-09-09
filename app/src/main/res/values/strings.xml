@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">todoapp</string>
+    <string name="back_action_button">Back Action Button</string>
+    <string name="add_new_todo_item">Add New Todo Item</string>
+    <string name="search_button">Search Button</string>
+    <string name="sort_the_todo_items">Sort the Todo items</string>
+    <string name="search_button_to_do_perform_search">Search button to do Perform Search</string>
+    <string name="clear_text_filled">Clear text filled</string>
+</resources>
