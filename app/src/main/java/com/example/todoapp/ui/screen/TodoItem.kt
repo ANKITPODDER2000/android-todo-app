@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -23,14 +24,16 @@ import com.example.todoapp.ui.theme.todoContentColor
 import com.example.todoapp.ui.theme.todoItemContainerColor
 import com.example.todoapp.utility.getTodo
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TodoItem(todo: Todo, modifier: Modifier = Modifier) {
+fun TodoItem(todo: Todo, todoClickListener: (Int) -> Unit, modifier: Modifier = Modifier) {
     Surface(
         modifier = modifier.fillMaxWidth(1f),
         shadowElevation = 4.dp,
         color = MaterialTheme.colorScheme.todoItemContainerColor,
         contentColor = MaterialTheme.colorScheme.todoContentColor,
-        tonalElevation = 4.dp
+        tonalElevation = 4.dp,
+        onClick = { todoClickListener(todo.id) }
     ) {
         Column(
             modifier = Modifier
@@ -72,6 +75,6 @@ fun TodoItem(todo: Todo, modifier: Modifier = Modifier) {
 @Composable
 fun PreviewTodoItem() {
     TodoItem(
-        todo = getTodo
+        todo = getTodo, { }
     )
 }

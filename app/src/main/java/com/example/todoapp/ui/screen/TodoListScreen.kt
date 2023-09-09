@@ -1,6 +1,5 @@
 package com.example.todoapp.ui.screen
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,28 +14,38 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.todoapp.R
 import com.example.todoapp.module.Todo
 import com.example.todoapp.ui.theme.todoContainerColor
 import com.example.todoapp.ui.theme.todoContentColor
-import com.example.todoapp.utility.getTodoItems
+import com.example.todoapp.utility.DBState
+import com.example.todoapp.viewmodel.TodoAppViewModel
 
 @Composable
-fun TodoListScreen(todos: List<Todo>) {
-    if (todos.isEmpty()) {
-        TodoListEmptyScreen()
+fun TodoListScreen(todoAppViewModel: TodoAppViewModel, todoClickListener: (Int) -> Unit) {
+    todoAppViewModel.getAllTodo()
+    val dbState by todoAppViewModel.dbState.collectAsState()
+    if (dbState is DBState.Completed) {
+        val todos = (dbState as DBState.Completed).todos
+        if (todos.isEmpty()) TodoListEmptyScreen(stringResource(R.string.oooopss_please_add_your_first_todo))
+        else TodoListItemScreens(todos = todos, todoClickListener = todoClickListener)
+    } else if (dbState is DBState.Error) {
+        TodoListEmptyScreen(text = (dbState as DBState.Error).error.message ?: "Error while fetching data")
     } else {
-        TodoListItemScreens(todos)
+        TodoListEmptyScreen(text = stringResource(R.string.loading))
     }
 }
 
 @Composable
-fun TodoListItemScreens(todos: List<Todo>) {
+fun TodoListItemScreens(todos: List<Todo>, todoClickListener: (Int) -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -44,13 +53,13 @@ fun TodoListItemScreens(todos: List<Todo>) {
             .padding(16.dp)
     ) {
         items(todos) {
-            TodoItem(todo = it, modifier = Modifier.padding(top = 16.dp))
+            TodoItem(todo = it, todoClickListener, modifier = Modifier.padding(top = 16.dp))
         }
     }
 }
 
 @Composable
-fun TodoListEmptyScreen() {
+fun TodoListEmptyScreen(text: String) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,7 +76,7 @@ fun TodoListEmptyScreen() {
                 .alpha(0.5f),
         )
         Text(
-            text = "Oooopss, please add your first todo!",
+            text = text,
             modifier = Modifier.padding(top = 8.dp),
             color = MaterialTheme.colorScheme.todoContentColor,
             fontSize = 20.sp
@@ -75,10 +84,12 @@ fun TodoListEmptyScreen() {
     }
 }
 
+/*
 @Preview(showBackground = true)
 @Preview(uiMode = UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 fun PreviewTodoListScreen() {
-    TodoListScreen(getTodoItems)
+    TodoListScreen() { }
 }
 
+*/

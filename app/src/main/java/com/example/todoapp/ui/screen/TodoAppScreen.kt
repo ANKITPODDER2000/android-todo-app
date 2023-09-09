@@ -8,6 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.example.todoapp.viewmodel.TodoAppViewModel
 import com.example.todoapp.viewmodel.TopAppBarViewModel
 
@@ -19,7 +20,7 @@ fun TodoAppScreen(topAppBarViewModel: TopAppBarViewModel, todoAppViewModel: Todo
         topBar = { TodoTopBar(topAppBarViewModel, "Task") },
         floatingActionButton = { TodoFloatingActionButton() }
     ) {
-        TodoNavHost(todoAppViewModel, modifier = Modifier.padding(paddingValues = it))
+        TodoNavHost(todoAppViewModel, navController = rememberNavController(), modifier = Modifier.padding(paddingValues = it))
     }
 }
 
