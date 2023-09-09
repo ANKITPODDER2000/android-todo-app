@@ -20,8 +20,8 @@ fun TodoNavHost(todoAppViewModel: TodoAppViewModel, modifier: Modifier = Modifie
     ) {
         composable(NavScreens.TODO_LIST_PAGE.name) {
             todoAppViewModel.getAllTodo()
-            val todoList by todoAppViewModel.allTodo.collectAsState()
-            TodoListScreen(todoList)
+            val dbState by todoAppViewModel.dbState.collectAsState()
+            TodoListScreen(dbState)
         }
     }
 }

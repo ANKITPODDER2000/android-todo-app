@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.db.TodoDao
-import com.example.todoapp.module.Todo
+import com.example.todoapp.utility.DBState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,17 +15,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TodoAppViewModel @Inject constructor(
-    private val todoDao: TodoDao
+    private val todoDao: TodoDao,
 ) : ViewModel() {
-    private val _allTodo = MutableStateFlow(emptyList<Todo>())
-    val allTodo: StateFlow<List<Todo>>
-        get() = _allTodo.asStateFlow()
+    private val _dbState: MutableStateFlow<DBState> = MutableStateFlow(DBState.NotStarted)
+    val dbState: StateFlow<DBState>
+        get() = _dbState.asStateFlow()
 
     fun getAllTodo() {
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("DEBUG_ANKIT", "getAllTodo: is called")
-            todoDao.getAllTodo().collect {
-                _allTodo.value = it
+            _dbState.value = DBState.Progressing
+            try {
+                todoDao.getAllTodo().collect {
+                    _dbState.value = DBState.Completed(it)
+                }
+            } catch (error: Exception) {
+                _dbState.value = DBState.Error(error)
             }
         }
     }

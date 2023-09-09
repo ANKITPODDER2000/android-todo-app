@@ -18,20 +18,33 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.todoapp.R
 import com.example.todoapp.module.Todo
 import com.example.todoapp.ui.theme.todoContainerColor
 import com.example.todoapp.ui.theme.todoContentColor
-import com.example.todoapp.utility.getTodoItems
+import com.example.todoapp.utility.DBState
 
 @Composable
-fun TodoListScreen(todos: List<Todo>) {
-    if (todos.isEmpty()) {
+fun TodoListScreen(dbState: DBState) {
+    /*if (todos.isEmpty()) {
         TodoListEmptyScreen()
     } else {
         TodoListItemScreens(todos)
+    }*/
+    if(dbState is DBState.Completed) {
+        val todos = dbState.todos
+        if(todos.isEmpty()) TodoListEmptyScreen(stringResource(R.string.oooopss_please_add_your_first_todo))
+        else TodoListItemScreens(todos = todos)
+    }
+    else if(dbState is DBState.Error) {
+        TodoListEmptyScreen(text = dbState.error.message ?: "Error while fetching data")
+    }
+    else {
+        TodoListEmptyScreen(text = stringResource(R.string.loading))
     }
 }
 
@@ -50,7 +63,7 @@ fun TodoListItemScreens(todos: List<Todo>) {
 }
 
 @Composable
-fun TodoListEmptyScreen() {
+fun TodoListEmptyScreen(text: String) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,7 +80,7 @@ fun TodoListEmptyScreen() {
                 .alpha(0.5f),
         )
         Text(
-            text = "Oooopss, please add your first todo!",
+            text = text,
             modifier = Modifier.padding(top = 8.dp),
             color = MaterialTheme.colorScheme.todoContentColor,
             fontSize = 20.sp
@@ -79,6 +92,6 @@ fun TodoListEmptyScreen() {
 @Preview(uiMode = UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
 fun PreviewTodoListScreen() {
-    TodoListScreen(getTodoItems)
+    TodoListScreen(DBState.Progressing)
 }
 

@@ -6,4 +6,6 @@
     <string name="sort_the_todo_items">Sort the Todo items</string>
     <string name="search_button_to_do_perform_search">Search button to do Perform Search</string>
     <string name="clear_text_filled">Clear text filled</string>
+    <string name="oooopss_please_add_your_first_todo">Oooopss, please add your first todo!</string>
+    <string name="loading">Loading....</string>
 </resources>
