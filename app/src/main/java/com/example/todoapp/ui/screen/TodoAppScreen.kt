@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.todoapp.ui.screen.topappbar.TodoTopBar
+import com.example.todoapp.utility.NavScreens
 import com.example.todoapp.viewmodel.TodoAppViewModel
 import com.example.todoapp.viewmodel.TopAppBarViewModel
 
@@ -23,7 +25,11 @@ fun TodoAppScreen(
 ) {
     Scaffold(
         topBar = { TodoTopBar(topAppBarViewModel, navHostController) },
-        floatingActionButton = { TodoFloatingActionButton() }
+        floatingActionButton = {
+            TodoFloatingActionButton {
+                navHostController.navigate(NavScreens.TODO_FORM.name)
+            }
+        }
     ) {
         TodoNavHost(
             todoAppViewModel,

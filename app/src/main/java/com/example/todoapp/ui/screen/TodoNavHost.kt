@@ -32,6 +32,11 @@ fun TodoNavHost(todoAppViewModel: TodoAppViewModel, navController: NavHostContro
             Log.d("DEBUG_ANKIT", "TodoNavHost: todo app details page is called and backStack is : ${navController.previousBackStackEntry != null}")
             TodoDetailsScreen()
         }
+        composable(
+            route = NavScreens.TODO_FORM.name,
+        ) {
+            TodoForm()
+        }
     }
 }
 

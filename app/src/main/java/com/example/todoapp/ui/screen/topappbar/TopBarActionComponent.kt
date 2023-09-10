@@ -1,10 +1,13 @@
-package com.example.todoapp.ui.screen
+package com.example.todoapp.ui.screen.topappbar
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -25,6 +28,14 @@ import com.example.todoapp.R
 import com.example.todoapp.ui.theme.scaffoldContentColor
 import com.example.todoapp.utility.TaskPriority
 
+@Composable
+fun HomeActionButtons(handleSearchButtonClicked: () -> Unit) {
+    Row {
+        SearchButton(handleSearchButtonClicked)
+        SortButton()
+        DeleteButton()
+    }
+}
 
 @Composable
 fun DeleteButton() {
@@ -52,9 +63,9 @@ fun SortButton() {
             contentDescription = stringResource(R.string.sort_the_todo_items),
             tint = MaterialTheme.colorScheme.scaffoldContentColor
         )
-        TodoDropDown(isExpanded) {
-            isExpanded = !isExpanded
-        }
+    }
+    TodoDropDown(isExpanded) {
+        isExpanded = !isExpanded
     }
 }
 
@@ -95,6 +106,26 @@ fun SearchButton(handleSearchButtonClicked: () -> Unit) {
         Icon(
             imageVector = Icons.Filled.Search,
             contentDescription = stringResource(R.string.search_button)
+        )
+    }
+}
+
+@Composable
+fun DoneButton() {
+    IconButton(onClick = { /* Todo */ }) {
+        Icon(
+            imageVector = Icons.Filled.Check,
+            contentDescription = stringResource(R.string.done_button)
+        )
+    }
+}
+
+@Composable
+fun EditButton() {
+    IconButton(onClick = { /* Todo */ }) {
+        Icon(
+            imageVector = Icons.Filled.Edit,
+            contentDescription = stringResource(R.string.done_button)
         )
     }
 }
