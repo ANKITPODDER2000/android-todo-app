@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.todoapp.ui.screen.topappbar.TodoTopBar
 import com.example.todoapp.utility.NavScreens
@@ -23,11 +25,15 @@ fun TodoAppScreen(
     todoAppViewModel: TodoAppViewModel,
     navHostController: NavHostController = rememberNavController(),
 ) {
+    val currentBackStack by navHostController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStack?.destination?.route
     Scaffold(
         topBar = { TodoTopBar(topAppBarViewModel, navHostController) },
         floatingActionButton = {
-            TodoFloatingActionButton {
-                navHostController.navigate(NavScreens.TODO_FORM.name)
+            if (currentRoute != NavScreens.TODO_FORM.name) {
+                TodoFloatingActionButton {
+                    navHostController.navigate(NavScreens.TODO_FORM.name)
+                }
             }
         }
     ) {

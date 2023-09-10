@@ -33,7 +33,8 @@ fun TodoItem(todo: Todo, todoClickListener: (Int) -> Unit, modifier: Modifier = 
         color = MaterialTheme.colorScheme.todoItemContainerColor,
         contentColor = MaterialTheme.colorScheme.todoContentColor,
         tonalElevation = 4.dp,
-        onClick = { todoClickListener(todo.id) }
+        onClick = { todoClickListener(todo.id) },
+        shape = MaterialTheme.shapes.small
     ) {
         Column(
             modifier = Modifier
