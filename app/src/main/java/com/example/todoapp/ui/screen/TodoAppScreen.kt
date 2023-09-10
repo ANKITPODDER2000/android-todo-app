@@ -8,6 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.todoapp.viewmodel.TodoAppViewModel
 import com.example.todoapp.viewmodel.TopAppBarViewModel
@@ -15,12 +16,20 @@ import com.example.todoapp.viewmodel.TopAppBarViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TodoAppScreen(topAppBarViewModel: TopAppBarViewModel, todoAppViewModel: TodoAppViewModel) {
+fun TodoAppScreen(
+    topAppBarViewModel: TopAppBarViewModel,
+    todoAppViewModel: TodoAppViewModel,
+    navHostController: NavHostController = rememberNavController(),
+) {
     Scaffold(
-        topBar = { TodoTopBar(topAppBarViewModel, "Task") },
+        topBar = { TodoTopBar(topAppBarViewModel, navHostController) },
         floatingActionButton = { TodoFloatingActionButton() }
     ) {
-        TodoNavHost(todoAppViewModel, navController = rememberNavController(), modifier = Modifier.padding(paddingValues = it))
+        TodoNavHost(
+            todoAppViewModel,
+            navController = navHostController,
+            modifier = Modifier.padding(paddingValues = it)
+        )
     }
 }
 

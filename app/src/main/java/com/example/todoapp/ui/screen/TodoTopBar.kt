@@ -1,6 +1,8 @@
 package com.example.todoapp.ui.screen
 
+import android.app.Activity
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,13 +29,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.todoapp.R
 import com.example.todoapp.ui.theme.scaffoldContainerColor
 import com.example.todoapp.ui.theme.scaffoldContentColor
+import com.example.todoapp.utility.NavScreens
 import com.example.todoapp.viewmodel.TopAppBarViewModel
+
+private const val TAG = "TodoTopBar"
 
 @OptIn(ExperimentalMaterial3Api::class)
 val appBarColors: TopAppBarColors
@@ -44,14 +53,20 @@ val appBarColors: TopAppBarColors
     )
 
 @Composable
-fun TodoTopBar(topAppBarViewModel: TopAppBarViewModel, appBarTitle: String) {
+fun TodoTopBar(
+    topAppBarViewModel: TopAppBarViewModel,
+    navHostController: NavHostController,
+) {
     val isSearchBarVisible by topAppBarViewModel.isSearchBarVisible.collectAsState()
     val searchedText by topAppBarViewModel.searchedText.collectAsState()
-    if (!isSearchBarVisible) TodoTopAppBar(appBarTitle) {
-        topAppBarViewModel.toggleSearchAppBar()
-    }
-    else TodoSearchAppBar(searchedText, { topAppBarViewModel.handleSearchedTextChange(it) }) {
-        topAppBarViewModel.toggleSearchAppBar()
+    if (!isSearchBarVisible) {
+        TodoTopAppBar(navHostController) {
+            topAppBarViewModel.toggleSearchAppBar()
+        }
+    } else {
+        TodoSearchAppBar(searchedText, { topAppBarViewModel.handleSearchedTextChange(it) }) {
+            topAppBarViewModel.toggleSearchAppBar()
+        }
     }
 }
 
@@ -69,7 +84,7 @@ fun TodoSearchAppBar(
         shadowElevation = 4.dp,
         color = MaterialTheme.colorScheme.scaffoldContainerColor,
 
-    ) {
+        ) {
         TextField(
             value = inputText,
             onValueChange = { handleInputChange(it) },
@@ -121,10 +136,26 @@ fun TodoSearchAppBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TodoTopAppBar(appBarTitle: String, handleSearchButtonClicked: () -> Unit) {
+fun TodoTopAppBar(
+    navController: NavHostController,
+    handleSearchButtonClicked: () -> Unit,
+) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    val context = LocalContext.current as Activity
+    Log.d(TAG, "TodoTopAppBar: Current route is : $currentRoute")
+
+    val appBarTitle = getAppBarTitle(currentRoute)
     TopAppBar(title = { Text(text = appBarTitle) },
         colors = appBarColors,
-        navigationIcon = { NavigationButton() },
+        navigationIcon = {
+            NavigationButton {
+                if (navController.previousBackStackEntry != null)
+                    navController.navigateUp()
+                else
+                    context.finish()
+            }
+        },
         actions = {
             SearchButton(handleSearchButtonClicked)
             SortButton()
@@ -132,9 +163,18 @@ fun TodoTopAppBar(appBarTitle: String, handleSearchButtonClicked: () -> Unit) {
         })
 }
 
+fun getAppBarTitle(currentRoute: String?): String {
+    return when(currentRoute) {
+        NavScreens.TODO_LIST_PAGE.name -> "Todo Task"
+        "${NavScreens.TODO_DETAILS_PAGE.name}/{id}" -> "Todo Details"
+        NavScreens.CREATE_NEW_TODO_FORM.name ->  "Add Task"
+        else -> "Todo App"
+    }
+}
+
 @Composable
-fun NavigationButton() {
-    IconButton(onClick = { /*TODO*/ }) {
+fun NavigationButton(backButtonClickListener: () -> Unit) {
+    IconButton(onClick = { backButtonClickListener() }) {
         Icon(
             imageVector = Icons.Filled.ArrowBack,
             contentDescription = stringResource(R.string.back_action_button),
@@ -154,5 +194,5 @@ fun PreviewTodoTopSearchBar() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark Preview")
 @Composable
 fun PreviewTodoTopBar() {
-    TodoTopBar(TopAppBarViewModel(), "App Title")
+    TodoTopBar(TopAppBarViewModel(), rememberNavController())
 }

@@ -16,8 +16,8 @@ class MainActivity : ComponentActivity() {
     private val todoAppViewModel: TodoAppViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        todoAppViewModel.getAllTodo()
         setContent {
-            todoAppViewModel.getAllTodo()
             TodoappTheme {
                 TodoAppScreen(topAppBarViewModel, todoAppViewModel)
             }
