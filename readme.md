@@ -1,6 +1,6 @@
 # Jetpack Compose Todo App
 
-![Jetpack Compose Todo App Demo](https://developer.android.com/courses/jetpack-compose/course)
+[Jetpack Compose Todo App Demo](https://developer.android.com/courses/jetpack-compose/course)
 
 ## Overview
 This is a simple and elegant To-Do list application built using Jetpack Compose, the modern Android UI toolkit. It showcases the power and flexibility of Compose in creating beautiful and responsive user interfaces.
