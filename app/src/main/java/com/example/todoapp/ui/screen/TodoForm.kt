@@ -20,36 +20,7 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoForm() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth(1f)
-            .padding(horizontal = 24.dp, vertical = 16.dp)
-    ) {
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = "",
-            maxLines = 1,
-            singleLine = true,
-            onValueChange = {},
-            label = { Text(text = "Todo title") },
-            placeholder = {
-                Text(
-                    text = "Todo Title"
-                )
-            }
-        )
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp).requiredHeight(400.dp),
-            value = "",
-            maxLines = 1,
-            singleLine = true,
-            onValueChange = {},
-            label = { Text(text = "Todo title") },
-            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.End)
-        )
-    }
+
 }
 
 @Preview(showSystemUi = true)

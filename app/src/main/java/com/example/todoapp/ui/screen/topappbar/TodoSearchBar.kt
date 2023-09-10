@@ -1,4 +1,4 @@
-package com.example.todoapp.ui.screen
+package com.example.todoapp.ui.screen.topappbar
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.ArrowForward
@@ -18,12 +17,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -33,27 +27,6 @@ import androidx.compose.ui.unit.dp
 import com.example.todoapp.R
 import com.example.todoapp.ui.theme.scaffoldContainerColor
 import com.example.todoapp.ui.theme.scaffoldContentColor
-import com.example.todoapp.viewmodel.TopAppBarViewModel
-
-@OptIn(ExperimentalMaterial3Api::class)
-val appBarColors: TopAppBarColors
-    @Composable get() = TopAppBarDefaults.smallTopAppBarColors(
-        containerColor = MaterialTheme.colorScheme.scaffoldContainerColor,
-        titleContentColor = MaterialTheme.colorScheme.scaffoldContentColor,
-        actionIconContentColor = MaterialTheme.colorScheme.scaffoldContentColor
-    )
-
-@Composable
-fun TodoTopBar(topAppBarViewModel: TopAppBarViewModel, appBarTitle: String) {
-    val isSearchBarVisible by topAppBarViewModel.isSearchBarVisible.collectAsState()
-    val searchedText by topAppBarViewModel.searchedText.collectAsState()
-    if (!isSearchBarVisible) TodoTopAppBar(appBarTitle) {
-        topAppBarViewModel.toggleSearchAppBar()
-    }
-    else TodoSearchAppBar(searchedText, { topAppBarViewModel.handleSearchedTextChange(it) }) {
-        topAppBarViewModel.toggleSearchAppBar()
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,7 +42,7 @@ fun TodoSearchAppBar(
         shadowElevation = 4.dp,
         color = MaterialTheme.colorScheme.scaffoldContainerColor,
 
-    ) {
+        ) {
         TextField(
             value = inputText,
             onValueChange = { handleInputChange(it) },
@@ -119,40 +92,10 @@ fun TodoSearchAppBar(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TodoTopAppBar(appBarTitle: String, handleSearchButtonClicked: () -> Unit) {
-    TopAppBar(title = { Text(text = appBarTitle) },
-        colors = appBarColors,
-        navigationIcon = { NavigationButton() },
-        actions = {
-            SearchButton(handleSearchButtonClicked)
-            SortButton()
-            DeleteButton()
-        })
-}
-
-@Composable
-fun NavigationButton() {
-    IconButton(onClick = { /*TODO*/ }) {
-        Icon(
-            imageVector = Icons.Filled.ArrowBack,
-            contentDescription = stringResource(R.string.back_action_button),
-            tint = MaterialTheme.colorScheme.scaffoldContentColor
-        )
-    }
-}
 
 @Preview(name = "Light Preview")
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark Preview")
 @Composable
 fun PreviewTodoTopSearchBar() {
     TodoSearchAppBar("", {}) {}
-}
-
-@Preview(name = "Light Preview")
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark Preview")
-@Composable
-fun PreviewTodoTopBar() {
-    TodoTopBar(TopAppBarViewModel(), "App Title")
 }

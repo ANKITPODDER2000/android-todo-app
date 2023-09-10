@@ -14,9 +14,9 @@ import com.example.todoapp.ui.theme.scaffoldContainerColor
 import com.example.todoapp.ui.theme.scaffoldContentColor
 
 @Composable
-fun TodoFloatingActionButton() {
+fun TodoFloatingActionButton(buttonClickListener: () -> Unit) {
     FloatingActionButton(
-        onClick = { /*TODO*/ },
+        onClick = { buttonClickListener() },
         contentColor = MaterialTheme.colorScheme.scaffoldContentColor,
         containerColor = MaterialTheme.colorScheme.scaffoldContainerColor
     ) {
@@ -31,5 +31,5 @@ fun TodoFloatingActionButton() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewTodoFloatingActionButton() {
-    TodoFloatingActionButton()
+    TodoFloatingActionButton{ }
 }

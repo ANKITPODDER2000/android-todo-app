@@ -31,7 +31,7 @@ import com.example.todoapp.viewmodel.TodoAppViewModel
 
 @Composable
 fun TodoListScreen(todoAppViewModel: TodoAppViewModel, todoClickListener: (Int) -> Unit) {
-    todoAppViewModel.getAllTodo()
+    // todoAppViewModel.getAllTodo()
     val dbState by todoAppViewModel.dbState.collectAsState()
     if (dbState is DBState.Completed) {
         val todos = (dbState as DBState.Completed).todos
