@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run Lint
-        run: ./gradlew lintDebug
+        run: .\gradlew lintdebug
       - name: Upload Test Report
         uses: actions/upload-artifact@v3
         with:
