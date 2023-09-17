@@ -13,9 +13,15 @@ import androidx.navigation.navArgument
 import com.example.todoapp.ui.screen.todoform.TodoForm
 import com.example.todoapp.utility.NavScreens
 import com.example.todoapp.viewmodel.TodoAppViewModel
+import com.example.todoapp.viewmodel.TodoFormViewModel
 
 @Composable
-fun TodoNavHost(todoAppViewModel: TodoAppViewModel, navController: NavHostController, modifier: Modifier = Modifier) {
+fun TodoNavHost(
+    todoAppViewModel: TodoAppViewModel,
+    todoFormViewModel: TodoFormViewModel,
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+) {
     NavHost(
         navController = navController,
         startDestination = NavScreens.TODO_LIST_PAGE.name,
@@ -30,13 +36,16 @@ fun TodoNavHost(todoAppViewModel: TodoAppViewModel, navController: NavHostContro
             route = "${NavScreens.TODO_DETAILS_PAGE.name}/{id}",
             arguments = listOf(navArgument("id") { type = NavType.StringType })
         ) {
-            Log.d("DEBUG_ANKIT", "TodoNavHost: todo app details page is called and backStack is : ${navController.previousBackStackEntry != null}")
+            Log.d(
+                "DEBUG_ANKIT",
+                "TodoNavHost: todo app details page is called and backStack is : ${navController.previousBackStackEntry != null}"
+            )
             TodoDetailsScreen()
         }
         composable(
             route = NavScreens.TODO_FORM.name,
         ) {
-            TodoForm()
+            TodoForm(todoFormViewModel)
         }
     }
 }

@@ -1,29 +1,22 @@
 package com.example.todoapp.ui.screen.topappbar
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.example.todoapp.R
 import com.example.todoapp.ui.theme.scaffoldContentColor
 import com.example.todoapp.utility.TaskPriority
@@ -82,22 +75,6 @@ fun TodoDropDown(
         TodoDropDownMenuItem(TaskPriority.MEDIUM, handleTodoDropDownMenuItemClick)
         TodoDropDownMenuItem(TaskPriority.LOW, handleTodoDropDownMenuItemClick)
     }
-}
-
-@Composable
-fun TodoDropDownMenuItem(
-    taskPriority: TaskPriority,
-    handleTodoDropDownMenuItemClick: (TaskPriority?) -> Unit,
-) {
-    DropdownMenuItem(
-        text = { Text(text = taskPriority.name, modifier = Modifier.padding(end = 16.dp)) },
-        onClick = { handleTodoDropDownMenuItemClick(taskPriority) },
-        leadingIcon = {
-            Canvas(modifier = Modifier.size(16.dp)) {
-                drawCircle(taskPriority.color)
-            }
-        }
-    )
 }
 
 @Composable
