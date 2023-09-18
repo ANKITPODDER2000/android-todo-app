@@ -24,9 +24,3 @@ val getTodo: Todo
             priority = taskPriority
         )
     }
-val getTodoItems: List<Todo>
-    get() {
-        val listOfTodo = mutableListOf<Todo>()
-        for(i in 1 .. 4) listOfTodo.add(getTodo)
-        return listOfTodo
-    }

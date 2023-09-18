@@ -26,6 +26,7 @@ val appBarColors: TopAppBarColors
 fun TodoTopBar(
     topAppBarViewModel: TopAppBarViewModel,
     navHostController: NavHostController,
+    formSubmitListener: () -> Unit,
 ) {
     val isSearchBarVisible by topAppBarViewModel.isSearchBarVisible.collectAsState()
     val searchedText by topAppBarViewModel.searchedText.collectAsState()
@@ -36,8 +37,10 @@ fun TodoTopBar(
             topAppBarViewModel.toggleSearchAppBar()
         }
     } else {
-        TodoTopAppBar(navHostController) {
-            topAppBarViewModel.toggleSearchAppBar()
-        }
+        TodoTopAppBar(
+            navHostController,
+            { topAppBarViewModel.toggleSearchAppBar() },
+            { formSubmitListener() }
+        )
     }
 }

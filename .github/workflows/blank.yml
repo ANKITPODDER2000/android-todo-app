@@ -1,16 +1,14 @@
 name: CI
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
+  jobs:
+    lint:
+      runs-on: ubuntu-latest
+      steps:
       - uses: actions/checkout@v3
+
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
@@ -22,5 +20,5 @@ jobs:
       - name: Upload Test Report
         uses: actions/upload-artifact@v3
         with:
-          name: index.html
-          path: /app/build/reports/lint-results-debug.html
+          name: lint.html
+          path: app/build/reports/lint-results-debug.html
