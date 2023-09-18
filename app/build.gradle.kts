@@ -60,7 +60,15 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
+
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(JavaVersion.VERSION_17.toString()))
+        }
+    }
 }
+
+
 
 dependencies {
 
@@ -98,8 +106,6 @@ dependencies {
 
     val navVersion = "2.5.2"
     implementation("androidx.navigation:navigation-compose:$navVersion")
-
-    annotationProcessor("android.arch.persistence.room:compiler:1.1.1")
 }
 
 hilt {
