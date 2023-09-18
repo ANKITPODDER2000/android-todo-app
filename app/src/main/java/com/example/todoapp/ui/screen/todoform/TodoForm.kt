@@ -33,10 +33,3 @@ fun TodoForm(todoFormViewModel: TodoFormViewModel,modifier: Modifier = Modifier)
                 .padding(top = 8.dp) )
     }
 }
-
-@Preview(showSystemUi = true)
-@Preview(uiMode = UI_MODE_NIGHT_YES, showSystemUi = true)
-@Composable
-fun PreviewTodoForm() {
-    TodoForm(TodoFormViewModel())
-}

@@ -22,6 +22,7 @@ private const val TAG = "TodoHomeTopAppBar"
 fun TodoTopAppBar(
     navController: NavHostController,
     handleSearchButtonClicked: () -> Unit,
+    formSubmitListener : () -> Unit
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -42,7 +43,7 @@ fun TodoTopAppBar(
         actions = {
             when (currentRoute) {
                 NavScreens.TODO_LIST_PAGE.name -> HomeActionButtons(handleSearchButtonClicked)
-                NavScreens.TODO_FORM.name -> DoneButton()
+                NavScreens.TODO_FORM.name -> DoneButton(formSubmitListener)
                 "${NavScreens.TODO_DETAILS_PAGE.name}/{id}" -> EditButton()
             }
         }
@@ -53,5 +54,5 @@ fun TodoTopAppBar(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark Preview")
 @Composable
 fun PreviewTodoTopBar() {
-    TodoTopAppBar(rememberNavController()) { }
+    TodoTopAppBar(rememberNavController(), { }, { })
 }

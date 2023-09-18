@@ -88,8 +88,8 @@ fun SearchButton(handleSearchButtonClicked: () -> Unit) {
 }
 
 @Composable
-fun DoneButton() {
-    IconButton(onClick = { /* Todo */ }) {
+fun DoneButton(formSubmitListener: () -> Unit) {
+    IconButton(onClick = { formSubmitListener() }) {
         Icon(
             imageVector = Icons.Filled.Check,
             contentDescription = stringResource(R.string.done_button)

@@ -8,6 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -29,8 +30,15 @@ fun TodoAppScreen(
 ) {
     val currentBackStack by navHostController.currentBackStackEntryAsState()
     val currentRoute = currentBackStack?.destination?.route
+    val context = LocalContext.current
     Scaffold(
-        topBar = { TodoTopBar(topAppBarViewModel, navHostController) },
+        topBar = {
+            TodoTopBar(topAppBarViewModel, navHostController) {
+                todoFormViewModel.handleFormSubmit(context, navHostController) {
+                    todoAppViewModel.getAllTodo()
+                }
+            }
+        },
         floatingActionButton = {
             if (currentRoute != NavScreens.TODO_FORM.name) {
                 TodoFloatingActionButton {
@@ -52,5 +60,5 @@ fun TodoAppScreen(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewTodoAppScreen() {
-    // TodoAppScreen(TopAppBarViewModel(), TodoAppViewModel())
+
 }
