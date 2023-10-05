@@ -23,4 +23,7 @@ interface TodoDao {
 
     @Query("SELECT * FROM $TODO_TABLE_NAME WHERE title =:searchedTodo")
     fun getSearchedTodo(searchedTodo: String): Flow<List<Todo>>
+
+    @Query("SELECT * FROM $TODO_TABLE_NAME WHERE id =:selectedId")
+    fun getTodoDetail(selectedId: Int) : Flow<Todo>
 }

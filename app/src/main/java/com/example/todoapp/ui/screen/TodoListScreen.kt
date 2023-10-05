@@ -27,12 +27,12 @@ import com.example.todoapp.module.Todo
 import com.example.todoapp.ui.theme.todoContainerColor
 import com.example.todoapp.ui.theme.todoContentColor
 import com.example.todoapp.utility.DBState
-import com.example.todoapp.viewmodel.TodoAppViewModel
+import com.example.todoapp.viewmodel.ViewModelProvider.todoAppViewModel
 
 @Composable
-fun TodoListScreen(todoAppViewModel: TodoAppViewModel, todoClickListener: (Int) -> Unit) {
+fun TodoListScreen(todoClickListener: (Int) -> Unit) {
     // todoAppViewModel.getAllTodo()
-    val dbState by todoAppViewModel.dbState.collectAsState()
+    val dbState by todoAppViewModel!!.dbState.collectAsState()
     if (dbState is DBState.Completed) {
         val todos = (dbState as DBState.Completed).todos
         if (todos.isEmpty()) TodoListEmptyScreen(stringResource(R.string.oooopss_please_add_your_first_todo))

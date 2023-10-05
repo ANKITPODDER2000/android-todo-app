@@ -2,7 +2,6 @@ package com.example.todoapp.ui.screen
 
 import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -10,6 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.todoapp.ui.screen.tododetails.TodoDetailsScreen
 import com.example.todoapp.ui.screen.todoform.TodoForm
 import com.example.todoapp.utility.NavScreens
 import com.example.todoapp.viewmodel.TodoAppViewModel
@@ -17,8 +17,6 @@ import com.example.todoapp.viewmodel.TodoFormViewModel
 
 @Composable
 fun TodoNavHost(
-    todoAppViewModel: TodoAppViewModel,
-    todoFormViewModel: TodoFormViewModel,
     navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
@@ -28,7 +26,7 @@ fun TodoNavHost(
         modifier = modifier.fillMaxSize(1f)
     ) {
         composable(NavScreens.TODO_LIST_PAGE.name) {
-            TodoListScreen(todoAppViewModel) { todoId ->
+            TodoListScreen() { todoId ->
                 navController.navigate("${NavScreens.TODO_DETAILS_PAGE.name}/$todoId")
             }
         }
@@ -40,17 +38,14 @@ fun TodoNavHost(
                 "DEBUG_ANKIT",
                 "TodoNavHost: todo app details page is called and backStack is : ${navController.previousBackStackEntry != null}"
             )
-            TodoDetailsScreen()
+            TodoDetailsScreen(it.arguments?.getString("id")) {
+                navController.navigate(NavScreens.TODO_LIST_PAGE.name)
+            }
         }
         composable(
             route = NavScreens.TODO_FORM.name,
         ) {
-            TodoForm(todoFormViewModel)
+            TodoForm()
         }
     }
-}
-
-@Composable
-fun TodoDetailsScreen() {
-    Text(text = "Todo Details Screen")
 }

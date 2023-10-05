@@ -18,14 +18,15 @@ import com.example.todoapp.utility.NavScreens
 import com.example.todoapp.viewmodel.TodoAppViewModel
 import com.example.todoapp.viewmodel.TodoFormViewModel
 import com.example.todoapp.viewmodel.TopAppBarViewModel
+import com.example.todoapp.viewmodel.ViewModelProvider
+import com.example.todoapp.viewmodel.ViewModelProvider.todoAppViewModel
+import com.example.todoapp.viewmodel.ViewModelProvider.todoFormViewModel
+import com.example.todoapp.viewmodel.ViewModelProvider.topAppBarViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun TodoAppScreen(
-    topAppBarViewModel: TopAppBarViewModel,
-    todoAppViewModel: TodoAppViewModel,
-    todoFormViewModel: TodoFormViewModel,
     navHostController: NavHostController = rememberNavController(),
 ) {
     val currentBackStack by navHostController.currentBackStackEntryAsState()
@@ -33,9 +34,9 @@ fun TodoAppScreen(
     val context = LocalContext.current
     Scaffold(
         topBar = {
-            TodoTopBar(topAppBarViewModel, navHostController) {
-                todoFormViewModel.handleFormSubmit(context, navHostController) {
-                    todoAppViewModel.getAllTodo()
+            TodoTopBar(navHostController) {
+                todoFormViewModel!!.handleFormSubmit(context, navHostController) {
+                    todoAppViewModel!!.getAllTodo()
                 }
             }
         },
@@ -48,8 +49,6 @@ fun TodoAppScreen(
         }
     ) {
         TodoNavHost(
-            todoAppViewModel,
-            todoFormViewModel,
             navController = navHostController,
             modifier = Modifier.padding(paddingValues = it)
         )
