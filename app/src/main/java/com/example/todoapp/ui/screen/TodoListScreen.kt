@@ -27,7 +27,6 @@ import com.example.todoapp.module.Todo
 import com.example.todoapp.ui.theme.todoContainerColor
 import com.example.todoapp.ui.theme.todoContentColor
 import com.example.todoapp.utility.DBState
-import com.example.todoapp.viewmodel.TodoAppViewModel
 import com.example.todoapp.viewmodel.ViewModelProvider.todoAppViewModel
 
 @Composable
