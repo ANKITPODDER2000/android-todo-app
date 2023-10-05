@@ -13,7 +13,14 @@ import androidx.compose.ui.tooling.preview.Preview
 fun TodoDetailsScreen(todoId: String?, dismissHandler: () -> Unit) {
     if (todoId == null) {
         ShowErrorDialog(dismissHandler)
+    } else {
+        TodoDetails(todoId)
     }
+}
+
+@Composable
+fun TodoDetails(todoId: String) {
+    Text(text = "Todo id is : $todoId")
 }
 
 @Composable
