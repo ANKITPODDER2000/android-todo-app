@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -12,11 +13,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.todoapp.module.Todo
 import com.example.todoapp.utility.DBState
+import com.example.todoapp.utility.getTodo
 import com.example.todoapp.viewmodel.TodoAppDetailViewModel
 
 @Composable
@@ -49,7 +53,24 @@ fun TodoDetails(dbState: DBState) {
 
 @Composable
 fun TodoInformationScreen(todo: Todo) {
-    Text(text = "Todo title : ${todo.title}")
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Text(
+            text = todo.title,
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 32.dp)
+        )
+        Text(
+            text = todo.description,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Light,
+            lineHeight = 26.sp
+        )
+    }
 }
 
 @Composable
@@ -87,5 +108,5 @@ fun ShowErrorDialog(dismissHandler: () -> Unit) {
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewTodoDetailsScreen() {
-    TodoDetails(DBState.NotStarted)
+    TodoDetails(DBState.FetchTodoSuccessfully(getTodo))
 }
