@@ -34,4 +34,4 @@ Contributions are welcome! If you'd like to add new features, fix bugs, or impro
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contact
-If you have any questions or suggestions, feel free to reach out to us at [your-email@example.com](mailto:your-email@example.com).
+If you have any questions or suggestions, feel free to reach out to us.
