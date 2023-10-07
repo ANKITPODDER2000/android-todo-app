@@ -6,5 +6,6 @@ sealed class DBState {
     class Error(val error: Exception) : DBState()
     object NotStarted : DBState()
     object Progressing : DBState()
-    class Completed(val todos: List<Todo>) : DBState()
+    class FetchAllTodosSuccessfully(val todos: List<Todo>) : DBState()
+    class FetchTodoSuccessfully(val todo: Todo) : DBState()
 }

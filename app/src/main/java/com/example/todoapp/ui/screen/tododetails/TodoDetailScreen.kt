@@ -1,26 +1,66 @@
 package com.example.todoapp.ui.screen.tododetails
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
+import com.example.todoapp.module.Todo
+import com.example.todoapp.utility.DBState
+import com.example.todoapp.viewmodel.TodoAppDetailViewModel
 
 @Composable
-fun TodoDetailsScreen(todoId: String?, dismissHandler: () -> Unit) {
-    if (todoId == null) {
+fun TodoDetailsScreen(
+    todoAppDetailViewModel: TodoAppDetailViewModel,
+    todoId: String?,
+    dismissHandler: () -> Unit,
+) {
+    val id = try {
+        todoId?.toInt() ?: -1
+    } catch (e: Exception) {
+        -1
+    }
+    if (id == -1) {
         ShowErrorDialog(dismissHandler)
     } else {
-        TodoDetails(todoId)
+        val todoDBState by todoAppDetailViewModel.getSelectedTodo(id).collectAsState()
+        TodoDetails(dbState = todoDBState)
     }
 }
 
 @Composable
-fun TodoDetails(todoId: String) {
-    Text(text = "Todo id is : $todoId")
+fun TodoDetails(dbState: DBState) {
+    when (dbState) {
+        is DBState.NotStarted -> TodoDetailEmptyScreen()
+        is DBState.FetchTodoSuccessfully -> TodoInformationScreen(dbState.todo)
+        else -> TodoDetailEmptyScreen()
+    }
+}
+
+@Composable
+fun TodoInformationScreen(todo: Todo) {
+    Text(text = "Todo title : ${todo.title}")
+}
+
+@Composable
+fun TodoDetailEmptyScreen() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = "Fetching info...", fontSize = 24.sp)
+    }
 }
 
 @Composable
@@ -44,8 +84,8 @@ fun ShowErrorDialog(dismissHandler: () -> Unit) {
 
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun PreviewTodoDetailsScreen() {
-    TodoDetailsScreen(null) { }
+    TodoDetails(DBState.NotStarted)
 }

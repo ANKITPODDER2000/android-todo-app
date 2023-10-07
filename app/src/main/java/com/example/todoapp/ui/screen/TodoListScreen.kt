@@ -33,8 +33,8 @@ import com.example.todoapp.viewmodel.TodoAppViewModel
 fun TodoListScreen(todoAppViewModel: TodoAppViewModel,todoClickListener: (Int) -> Unit) {
     // todoAppViewModel.getAllTodo()
     val dbState by todoAppViewModel.dbState.collectAsState()
-    if (dbState is DBState.Completed) {
-        val todos = (dbState as DBState.Completed).todos
+    if (dbState is DBState.FetchAllTodosSuccessfully) {
+        val todos = (dbState as DBState.FetchAllTodosSuccessfully).todos
         if (todos.isEmpty()) TodoListEmptyScreen(stringResource(R.string.oooopss_please_add_your_first_todo))
         else TodoListItemScreens(todos = todos, todoClickListener = todoClickListener)
     } else if (dbState is DBState.Error) {

@@ -15,6 +15,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.todoapp.ui.screen.topappbar.TodoTopBar
 import com.example.todoapp.utility.NavScreens
+import com.example.todoapp.viewmodel.TodoAppDetailViewModel
 import com.example.todoapp.viewmodel.TodoAppViewModel
 import com.example.todoapp.viewmodel.TodoFormViewModel
 import com.example.todoapp.viewmodel.TopAppBarViewModel
@@ -26,6 +27,7 @@ fun TodoAppScreen(
     topAppBarViewModel: TopAppBarViewModel,
     todoAppViewModel: TodoAppViewModel,
     todoFormViewModel: TodoFormViewModel,
+    todoAppDetailViewModel: TodoAppDetailViewModel,
     navHostController: NavHostController = rememberNavController(),
 ) {
     val currentBackStack by navHostController.currentBackStackEntryAsState()
@@ -50,6 +52,7 @@ fun TodoAppScreen(
         TodoNavHost(
             todoAppViewModel,
             todoFormViewModel,
+            todoAppDetailViewModel,
             navController = navHostController,
             modifier = Modifier.padding(paddingValues = it)
         )

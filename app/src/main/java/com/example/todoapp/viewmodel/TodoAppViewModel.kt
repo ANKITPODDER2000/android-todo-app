@@ -27,7 +27,7 @@ class TodoAppViewModel @Inject constructor(
             _dbState.value = DBState.Progressing
             try {
                 todoDao.getAllTodo().collect {
-                    _dbState.value = DBState.Completed(it)
+                    _dbState.value = DBState.FetchAllTodosSuccessfully(it)
                 }
             } catch (error: Exception) {
                 _dbState.value = DBState.Error(error)
