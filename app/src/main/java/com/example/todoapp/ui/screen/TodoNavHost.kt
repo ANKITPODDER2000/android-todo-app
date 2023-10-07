@@ -17,6 +17,8 @@ import com.example.todoapp.viewmodel.TodoFormViewModel
 
 @Composable
 fun TodoNavHost(
+    todoAppViewModel: TodoAppViewModel,
+    todoFormViewModel: TodoFormViewModel,
     navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
@@ -26,7 +28,7 @@ fun TodoNavHost(
         modifier = modifier.fillMaxSize(1f)
     ) {
         composable(NavScreens.TODO_LIST_PAGE.name) {
-            TodoListScreen() { todoId ->
+            TodoListScreen(todoAppViewModel) { todoId ->
                 navController.navigate("${NavScreens.TODO_DETAILS_PAGE.name}/$todoId")
             }
         }
@@ -45,7 +47,7 @@ fun TodoNavHost(
         composable(
             route = NavScreens.TODO_FORM.name,
         ) {
-            TodoForm()
+            TodoForm(todoFormViewModel)
         }
     }
 }
