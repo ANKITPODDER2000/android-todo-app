@@ -15,13 +15,13 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val topAppBarViewModel: TopAppBarViewModel by viewModels()
-    private val todoAppViewModel: TodoAppViewModel by viewModels()
-    private val todoFormViewModel: TodoFormViewModel by viewModels()
-    private val todoAppDetailViewModel: TodoAppDetailViewModel by viewModels()
+    private val topAppBarViewModel: TopAppBarViewModel by viewModels() // Create an instance of topAppBarViewModel
+    private val todoAppViewModel: TodoAppViewModel by viewModels() // Create an instance of todoAppViewModel
+    private val todoFormViewModel: TodoFormViewModel by viewModels() // Create an instance of todoFormViewModel
+    private val todoAppDetailViewModel: TodoAppDetailViewModel by viewModels() // Create an instance of todoAppDetailViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        todoAppViewModel.getAllTodo()
+        todoAppViewModel.getAllTodo() // Start the operation to fetch the data from the Room data base.
         setContent {
             TodoappTheme {
                 TodoAppScreen(topAppBarViewModel, todoAppViewModel, todoFormViewModel, todoAppDetailViewModel)
