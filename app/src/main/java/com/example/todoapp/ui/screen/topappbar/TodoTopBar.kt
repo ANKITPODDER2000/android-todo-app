@@ -12,7 +12,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.todoapp.ui.theme.scaffoldContainerColor
 import com.example.todoapp.ui.theme.scaffoldContentColor
 import com.example.todoapp.utility.NavScreens
-import com.example.todoapp.viewmodel.ViewModelProvider.topAppBarViewModel
+import com.example.todoapp.viewmodel.TopAppBarViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 val appBarColors: TopAppBarColors
@@ -24,21 +24,22 @@ val appBarColors: TopAppBarColors
 
 @Composable
 fun TodoTopBar(
+    topAppBarViewModel: TopAppBarViewModel,
     navHostController: NavHostController,
     formSubmitListener: () -> Unit,
 ) {
-    val isSearchBarVisible by topAppBarViewModel!!.isSearchBarVisible.collectAsState()
-    val searchedText by topAppBarViewModel!!.searchedText.collectAsState()
+    val isSearchBarVisible by topAppBarViewModel.isSearchBarVisible.collectAsState()
+    val searchedText by topAppBarViewModel.searchedText.collectAsState()
     val currentBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
     if (isSearchBarVisible && currentRoute == NavScreens.TODO_LIST_PAGE.name) {
-        TodoSearchAppBar(searchedText, { topAppBarViewModel!!.handleSearchedTextChange(it) }) {
-            topAppBarViewModel!!.toggleSearchAppBar()
+        TodoSearchAppBar(searchedText, { topAppBarViewModel.handleSearchedTextChange(it) }) {
+            topAppBarViewModel.toggleSearchAppBar()
         }
     } else {
         TodoTopAppBar(
             navHostController,
-            { topAppBarViewModel!!.toggleSearchAppBar() },
+            { topAppBarViewModel.toggleSearchAppBar() },
             { formSubmitListener() }
         )
     }

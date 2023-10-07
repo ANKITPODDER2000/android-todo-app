@@ -9,7 +9,6 @@ import com.example.todoapp.ui.theme.TodoappTheme
 import com.example.todoapp.viewmodel.TodoAppViewModel
 import com.example.todoapp.viewmodel.TodoFormViewModel
 import com.example.todoapp.viewmodel.TopAppBarViewModel
-import com.example.todoapp.viewmodel.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,16 +18,10 @@ class MainActivity : ComponentActivity() {
     private val todoFormViewModel: TodoFormViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        ViewModelProvider.topAppBarViewModel = topAppBarViewModel
-        ViewModelProvider.todoAppViewModel = todoAppViewModel
-        ViewModelProvider.todoFormViewModel = todoFormViewModel
-
         todoAppViewModel.getAllTodo()
-
         setContent {
             TodoappTheme {
-                TodoAppScreen()
+                TodoAppScreen(topAppBarViewModel, todoAppViewModel, todoFormViewModel)
             }
         }
     }

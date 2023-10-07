@@ -13,11 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.example.todoapp.ui.theme.todoContainerColor
-import com.example.todoapp.viewmodel.ViewModelProvider.todoFormViewModel
+import com.example.todoapp.viewmodel.TodoFormViewModel
 
 @Composable
-fun TodoForm(modifier: Modifier = Modifier) {
-    val formState by todoFormViewModel!!.formState.collectAsState()
+fun TodoForm(todoFormViewModel: TodoFormViewModel,modifier: Modifier = Modifier) {
+    val formState by todoFormViewModel.formState.collectAsState()
     Column(
         modifier = modifier
             .background(MaterialTheme.colorScheme.todoContainerColor)
