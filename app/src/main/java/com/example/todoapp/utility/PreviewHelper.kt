@@ -3,6 +3,7 @@ package com.example.todoapp.utility
 import com.example.todoapp.module.Todo
 import kotlin.random.Random
 
+// This variable will provide a dummy todo to help preview methods.
 val getTodo: Todo
     get() {
         val taskPriority: TaskPriority
